@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/22 15:41:32 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:07:13 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <unistd.h>
 
 // #include "libft/libft.h"
 
@@ -285,6 +286,24 @@ void	ft_putbase_fd(int nbr, int fd, char *base_to)
 	free(s);
 }
 
+void	specifier_switch(char c, va_list args)
+{
+	if (c == 'c')
+		ft_putchar_fd(va_arg(args, int), 1);
+	else if (c == 's')
+		ft_putstr_fd(va_arg(args, char *), 1);
+	else if (c == 'd' || c == 'i')
+		ft_putnbr_fd(va_arg(args, int), 1);
+	else if (c == 'u')
+		ft_putnbr_fd(va_arg(args, unsigned int), 1);
+	else if (c == '%')
+		ft_putstr_fd("%", 1);
+	else if (c == 'x')
+		ft_putbase_fd(va_arg(args, int), 1, "0123456789abcdef");
+	else if (c == 'X')
+		ft_putbase_fd(va_arg(args, int), 1, "0123456789ABCDEF");
+}
+
 void format_traversal(char *str, va_list args)
 {
 	int		j;
@@ -298,20 +317,7 @@ void format_traversal(char *str, va_list args)
 		else
 		{
 			c = get_specifier(str, j);
-			if (c == 'c')
-				ft_putchar_fd(va_arg(args, int), 1);
-			else if (c == 's')
-				ft_putstr_fd(va_arg(args, char *), 1);
-			else if (c == 'd' || c == 'i')
-				ft_putnbr_fd(va_arg(args, int), 1);
-			else if (c == 'u')
-				ft_putnbr_fd(va_arg(args, unsigned int), 1);
-			else if (c == '%')
-				ft_putstr_fd("%", 1);
-			else if (c == 'x')
-				ft_putbase_fd(va_arg(args, int), 1, "0123456789abcdef");
-			else if (c == 'X')
-				ft_putbase_fd(va_arg(args, int), 1, "0123456789ABCDEF");
+			specifier_switch(c, args);
 			j += get_length_ofspe(&str[j]);
 			continue;
 		}
@@ -338,49 +344,6 @@ int ft_printf(const char *format, ...)
 	// if (nbr_specifiers)
 	// {
 	// 	va_start(args, format);
-	// 	while (nbr_specifiers--)
-	// 	{
-	// 		while(!(str[j] == '%' && percent_spe_q(str, j)))
-	// 		{
-	// 			j++;
-	// 			continue;
-	// 		}
-	// 		if (get_specifier(str, j) == 'c')
-	// 			va_arg(args, int); ///
-	// 		else if (get_specifier(str, j) == 's')
-	// 		{
-	// 			debug = va_arg(args, char *);
-	// 			j--;
-	// 			while (j-- >= 0)
-	// 			{
-	// 				write(1, str, 1);
-	// 				str++;
-	// 			}
-	// 			while (*debug)
-	// 			{
-	// 				write(1, debug, 1);
-	// 				debug++;
-	// 			}
-	// 			str = str + get_length_ofspe(str);
-	// 			while (*str)
-	// 			{
-	// 				write(1, str, 1);
-	// 				str++;
-	// 			}
-	// 		}
-	// 		// else if (get_specifier(str, j) == 'd')
-	// 		// 	va_arg(args, double);
-	// 		// else if (get_specifier(str, j) == 'i')
-	// 		// 	va_arg(args, int);
-	// 		// else if (get_specifier(str, j) == 'u')
-	// 		// 	va_arg(args, float); ///
-	// 		// else if (get_specifier(str, j) == 'x')
-	// 		// 	va_arg(args, int);
-	// 		// else if (get_specifier(str, j) == 'X')
-	// 		// 	va_arg(args, int);
-	// 		// else if (get_specifier(str, j) == '%')
-	// 		// 	va_arg(args, char *);
-	// 	}
 	// 	va_end(args);
 	// }
 	return (0);
@@ -413,7 +376,7 @@ int main(void)
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 42);
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 32); // 20
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 0); // 2a
-	// ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42); // 2A
+	ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42); // 2A
 
 	// Not working as it should!
 	// ft_printf("Hello %s! Int: %d! Unsigned int: %u\n", "42", -42, -42);
