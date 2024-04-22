@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/22 12:17:44 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:41:32 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <limits.h>
+#include <stdlib.h>
+#include <errno.h>
+
 // #include "libft/libft.h"
 
 // int percent_spe_q(char *format, int i)
@@ -23,6 +26,25 @@
 // 		return (1);
 // 	return (0);
 // }
+
+//////// Changed!
+
+size_t	ft_strlen(const char *str)
+{
+	size_t		i;
+	size_t		count;
+
+	i = 0;
+	count = 0;
+	if (!str[i])
+		return (0);
+	while (str[i] != '\0')
+	{
+		count += 1;
+		i += 1;
+	}
+	return (count);
+}
 
 static int	ft_isdigit(int c)
 {
@@ -63,17 +85,7 @@ static int	power(int n, int power)
 	return (result);
 }
 
-// static void	ft_putstr_fd_alt(char *s, int fd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 	{
-// 		write(fd, &s[i], 1);
-// 		i++;
-// 	}
-// }
+//////////////////// Changed!!!
 
 void	ft_putnbr_fd(int n, int fd)
 {
@@ -98,6 +110,22 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 }
 
+// void	ft_putunint_fd(unsigned int n, int fd)
+// {
+// 	char			c;
+// 	int				nbr_digits;
+// 	n = n + (LONG_MAX ) % LONG_MAX;
+// 	nbr_digits = get_nbr_digits(n);
+// 	while (nbr_digits > 0)
+// 	{
+// 		c = (n / power(10, nbr_digits - 1)) + 48;
+// 		write(fd, &c, 1);
+// 		n = n % power(10, nbr_digits - 1);
+// 		nbr_digits--;
+// 	}
+// }
+// https://www.oreilly.com/library/view/c-in-a/0596006977/ch04.html
+
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
@@ -115,11 +143,23 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
+void	ft_putstrrev_fd(char *s, int fd)
+{
+	int	i;
+
+	i = ft_strlen(s) - 1;
+	while (i >= 0)
+	{
+		ft_putchar_fd(s[i], fd);
+		i--;
+	}
+}
+
 int	is_specifier(char c)
 {
 	if (c == 'c' || c == 's' || c == 'd'
 		|| c == 'i' || c == 'u' || c == 'x'
-		|| c == '%')
+		|| c == '%' || c == 'X')
 		return (1);
 	return (0);
 }
@@ -195,6 +235,55 @@ int		get_length_ofspe(char *format)
 		return(i + 1);
 	return ('\0');
 }
+int	out_length(int nbr, int base)
+{
+	int	i;
+
+	i = 0;
+	if (nbr == 0)
+		return (1);
+	while (nbr)
+	{
+		nbr = nbr / base;
+		i++;
+	}
+	return (i);
+}
+
+char	*convert_base(int nbr, char *base_to)
+{
+	int		base;
+	char	*output;
+	int		i;
+
+	base = ft_strlen(base_to);
+	i = 0;
+	output = (char *)malloc(out_length(nbr, base) + 1);
+	if (!output)
+		return (NULL);
+	if (nbr == 0)
+	{
+		output[0] = base_to[0];
+		i++; 
+	}
+	while (nbr)
+	{
+		output[i] = base_to[nbr % base];
+		nbr = nbr / base;
+		i++;
+	}
+	output[i] = '\0';
+	return (output);
+}
+
+void	ft_putbase_fd(int nbr, int fd, char *base_to)
+{
+	char	*s;
+	
+	s = convert_base(nbr, base_to);
+	ft_putstrrev_fd(s, fd);
+	free(s);
+}
 
 void format_traversal(char *str, va_list args)
 {
@@ -216,9 +305,13 @@ void format_traversal(char *str, va_list args)
 			else if (c == 'd' || c == 'i')
 				ft_putnbr_fd(va_arg(args, int), 1);
 			else if (c == 'u')
-				ft_putnbr_fd((unsigned int)va_arg(args, unsigned int), 1);
+				ft_putnbr_fd(va_arg(args, unsigned int), 1);
 			else if (c == '%')
 				ft_putstr_fd("%", 1);
+			else if (c == 'x')
+				ft_putbase_fd(va_arg(args, int), 1, "0123456789abcdef");
+			else if (c == 'X')
+				ft_putbase_fd(va_arg(args, int), 1, "0123456789ABCDEF");
 			j += get_length_ofspe(&str[j]);
 			continue;
 		}
@@ -293,6 +386,7 @@ int ft_printf(const char *format, ...)
 	return (0);
 }
 
+
 int main(void)
 {
 	// ft_printf("Hello World!");
@@ -314,9 +408,14 @@ int main(void)
 	// ft_printf("Hello %s! This is char %c!\n", "42", 'c');
 	// ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', 42);
 	// ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', -42);
+	// ft_printf("Int: %d!\n", INT_MIN);
 	// ft_printf("Hello %s! Int: %d! Percent sign: %%\n", "42", -42);
+	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 42);
+	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 32); // 20
+	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 0); // 2a
+	// ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42); // 2A
 
-	ft_printf("Int: %d!\n", INT_MIN);
-
+	// Not working as it should!
+	// ft_printf("Hello %s! Int: %d! Unsigned int: %u\n", "42", -42, -42);
 	return (0);
 }
