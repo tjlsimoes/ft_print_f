@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/22 10:52:29 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:09:32 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,25 @@ static int	power(int n, int power)
 	return (result);
 }
 
-static void	ft_putstr_fd_alt(char *s, int fd)
-{
-	int	i;
+// static void	ft_putstr_fd_alt(char *s, int fd)
+// {
+// 	int	i;
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (s[i] != '\0')
+// 	{
+// 		write(fd, &s[i], 1);
+// 		i++;
+// 	}
+// }
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	char	c;
-	int		nbr_digits;
+	char		c;
+	long long	nbr_digits;
 
-	if (n == -2147483648)
-		return (ft_putstr_fd_alt("-2147483648", fd));
+	// if (n == -2147483648)
+	// 	return (ft_putstr_fd_alt("-2147483648", fd));
 	if (n < 0)
 	{
 		n *= -1;
@@ -165,8 +165,7 @@ int get_nbr_specifiers(char *format)
 
 char	get_specifier(char *format, int i)
 {
-	while(format[i] == '%')
-		i++;
+	i++;
 	while (ft_isdigit(format[i]))
 		i++;
 	if (format[i] == '.')
@@ -183,8 +182,7 @@ int		get_length_ofspe(char *format)
 	int	i;
 
 	i = 0;
-	while(format[i] == '%')
-		i++;
+	i++;
 	while (ft_isdigit(format[i]))
 		i++;
 	if (format[i] == '.')
@@ -213,8 +211,12 @@ void format_traversal(char *str, va_list args)
 				ft_putchar_fd(va_arg(args, int), 1);
 			else if (c == 's')
 				ft_putstr_fd(va_arg(args, char *), 1);
-			else if (c == 'd')
+			else if (c == 'd' || c == 'i')
 				ft_putnbr_fd(va_arg(args, int), 1);
+			else if (c == 'u')
+				ft_putnbr_fd((unsigned int)va_arg(args, unsigned int), 1);
+			else if (c == '%')
+				ft_putstr_fd("%", 1);
 			j += get_length_ofspe(&str[j]);
 			continue;
 		}
@@ -308,7 +310,11 @@ int main(void)
 	// ft_printf("Hello %s!\n", "42");
 	// ft_printf("Hello %s! %s\n", "42", "Bye!");
 	// ft_printf("Hello %s! This is char %c!\n", "42", 'c');
-	ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', 42);
+	// ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', 42);
+	// ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', -42);
+
+	// ft_printf("Hello %s! Int: %d! Unsigned int: %u\n", "42", -42, -42);
+	ft_printf("Hello %s! Int: %d! Percent sign: %%\n", "42", -42);
 
 	return (0);
 }
