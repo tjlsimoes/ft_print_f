@@ -6,13 +6,14 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/22 12:09:32 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:17:44 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <limits.h>
 // #include "libft/libft.h"
 
 // int percent_spe_q(char *format, int i)
@@ -77,21 +78,22 @@ static int	power(int n, int power)
 void	ft_putnbr_fd(int n, int fd)
 {
 	char		c;
-	long long	nbr_digits;
+	int			nbr_digits;
+	long	n_ll;
 
-	// if (n == -2147483648)
-	// 	return (ft_putstr_fd_alt("-2147483648", fd));
-	if (n < 0)
+	n_ll = (long)n;
+
+	if (n_ll < 0)
 	{
-		n *= -1;
+		n_ll *= -1;
 		write(fd, "-", 1);
 	}
-	nbr_digits = get_nbr_digits(n);
+	nbr_digits = get_nbr_digits(n_ll);
 	while (nbr_digits > 0)
 	{
-		c = (n / power(10, nbr_digits - 1)) + 48;
+		c = (n_ll / power(10, nbr_digits - 1)) + 48;
 		write(fd, &c, 1);
-		n = n % power(10, nbr_digits - 1);
+		n_ll = n_ll % power(10, nbr_digits - 1);
 		nbr_digits--;
 	}
 }
@@ -312,9 +314,9 @@ int main(void)
 	// ft_printf("Hello %s! This is char %c!\n", "42", 'c');
 	// ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', 42);
 	// ft_printf("Hello %s! This is char %c! And this is number %d!\n", "42", 'c', -42);
+	// ft_printf("Hello %s! Int: %d! Percent sign: %%\n", "42", -42);
 
-	// ft_printf("Hello %s! Int: %d! Unsigned int: %u\n", "42", -42, -42);
-	ft_printf("Hello %s! Int: %d! Percent sign: %%\n", "42", -42);
+	ft_printf("Int: %d!\n", INT_MIN);
 
 	return (0);
 }
