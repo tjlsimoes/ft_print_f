@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   convert_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 13:00:36 by tjorge-l         ###   ########.fr       */
+/*   Created: 2024/04/23 12:41:27 by tjorge-l          #+#    #+#             */
+/*   Updated: 2024/04/23 13:02:20 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+char	*convert_base(unsigned long long nbr, char *base_to)
 {
-	va_list	args;
-	int		j;
+	int		base;
+	char	*output;
+	int		i;
 
-	va_start(args, format);
-	j = format_traversal((char *)format, args);
-	va_end(args);
-	return (j);
+	base = ft_strlen(base_to);
+	i = 0;
+	output = (char *)malloc(out_length(nbr, base) + 1);
+	if (!output)
+		return (NULL);
+	if (nbr == 0)
+	{
+		output[0] = base_to[0];
+		i++;
+	}
+	while (nbr)
+	{
+		output[i] = base_to[nbr % base];
+		nbr = nbr / base;
+		i++;
+	}
+	output[i] = '\0';
+	return (output);
 }
-// #include "ft_printf.h"
-
-// int get_nbr_specifiers(char *format)
-// {
-// 	int i;
-// 	int count;
-
-// 	count = 0;
-// 	i = 0;
-// 	while (format[i])
-// 	{
-// 		if (format[i] == '%' && percent_spe_q(format, i))
-// 			count++;
-// 		i++;
-// 	}
-// 	return (count);
-// }

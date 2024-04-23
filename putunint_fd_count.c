@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   putunint_fd_count.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 13:00:36 by tjorge-l         ###   ########.fr       */
+/*   Created: 2024/04/23 12:35:54 by tjorge-l          #+#    #+#             */
+/*   Updated: 2024/04/23 12:36:11 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+int	putunint_fd_count(unsigned int n, int fd, int count)
 {
-	va_list	args;
-	int		j;
+	char		c;
+	int			nbr_digits;
+	long		n_ll;
 
-	va_start(args, format);
-	j = format_traversal((char *)format, args);
-	va_end(args);
-	return (j);
+	n_ll = (unsigned long)n;
+	nbr_digits = get_unint_digits(n_ll);
+	while (nbr_digits > 0)
+	{
+		c = (n_ll / power(10, nbr_digits - 1)) + 48;
+		write(fd, &c, 1);
+		count++;
+		n_ll = n_ll % power(10, nbr_digits - 1);
+		nbr_digits--;
+	}
+	return (count);
 }
-// #include "ft_printf.h"
-
-// int get_nbr_specifiers(char *format)
-// {
-// 	int i;
-// 	int count;
-
-// 	count = 0;
-// 	i = 0;
-// 	while (format[i])
-// 	{
-// 		if (format[i] == '%' && percent_spe_q(format, i))
-// 			count++;
-// 		i++;
-// 	}
-// 	return (count);
-// }

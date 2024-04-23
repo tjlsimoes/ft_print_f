@@ -1,41 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   get_specifier.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 13:00:36 by tjorge-l         ###   ########.fr       */
+/*   Created: 2024/04/23 12:40:18 by tjorge-l          #+#    #+#             */
+/*   Updated: 2024/04/23 12:57:35 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+char	get_specifier(char *format, int i)
 {
-	va_list	args;
-	int		j;
-
-	va_start(args, format);
-	j = format_traversal((char *)format, args);
-	va_end(args);
-	return (j);
+	i++;
+	while (ft_isdigit(format[i]))
+		i++;
+	if (format[i] == '.')
+		i++;
+	while (ft_isdigit(format[i]))
+		i++;
+	if (is_specifier(format[i]))
+		return (format[i]);
+	return ('\0');
 }
-// #include "ft_printf.h"
-
-// int get_nbr_specifiers(char *format)
-// {
-// 	int i;
-// 	int count;
-
-// 	count = 0;
-// 	i = 0;
-// 	while (format[i])
-// 	{
-// 		if (format[i] == '%' && percent_spe_q(format, i))
-// 			count++;
-// 		i++;
-// 	}
-// 	return (count);
-// }
