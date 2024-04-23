@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 10:28:31 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:33:04 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <unistd.h>
 
 // #include "libft/libft.h"
@@ -320,6 +319,8 @@ int format_traversal(char *str, va_list args)
 
 	j = 0;
 	count = 0;
+	if (!str || !args)
+		return (0);
 	while (str[j])
 	{
 		if (!(str[j] == '%' && percent_spe_q(str, j)))
