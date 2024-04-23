@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/22 17:01:20 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:28:31 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,17 @@ static int	power(int n, int power)
 
 //////////////////// Changed!!!
 
-void	ft_putnbr_fd(int n, int fd)
+int	putnbr_fd_count(int n, int fd, int count)
 {
 	char		c;
 	int			nbr_digits;
-	long	n_ll;
+	long		n_ll;
 
 	n_ll = (long)n;
-
 	if (n_ll < 0)
 	{
 		n_ll *= -1;
+		count++;
 		write(fd, "-", 1);
 	}
 	nbr_digits = get_nbr_digits(n_ll);
@@ -106,9 +106,11 @@ void	ft_putnbr_fd(int n, int fd)
 	{
 		c = (n_ll / power(10, nbr_digits - 1)) + 48;
 		write(fd, &c, 1);
+		count++;
 		n_ll = n_ll % power(10, nbr_digits - 1);
 		nbr_digits--;
 	}
+	return (count);
 }
 
 // void	ft_putunint_fd(unsigned int n, int fd)
@@ -127,33 +129,37 @@ void	ft_putnbr_fd(int n, int fd)
 // }
 // https://www.oreilly.com/library/view/c-in-a/0596006977/ch04.html
 
-void	ft_putchar_fd(char c, int fd)
+int	putchar_fd_count(char c, int fd, int count)
 {
 	write(fd, &c, 1);
+	count++;
+	return (count);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+int	putstr_fd_count(char *s, int fd, int count)
 {
 	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
 	{
-		ft_putchar_fd(s[i], fd);
+		count = putchar_fd_count(s[i], fd, count);
 		i++;
 	}
+	return (count);
 }
 
-void	ft_putstrrev_fd(char *s, int fd)
+int	putstrrev_fd_count(char *s, int fd, int count)
 {
 	int	i;
 
 	i = ft_strlen(s) - 1;
 	while (i >= 0)
 	{
-		ft_putchar_fd(s[i], fd);
+		count = putchar_fd_count(s[i], fd, count);
 		i--;
 	}
+	return (count);
 }
 
 int	is_specifier(char c)
@@ -277,79 +283,79 @@ char	*convert_base(int nbr, char *base_to)
 	return (output);
 }
 
-void	ft_putbase_fd(int nbr, int fd, char *base_to)
+int	putbase_fd_count(int nbr, int fd, char *base_to, int count)
 {
 	char	*s;
 	
 	s = convert_base(nbr, base_to);
-	ft_putstrrev_fd(s, fd);
+	count = putstrrev_fd_count(s, fd, count);
 	free(s);
+	return (count);
 }
 
-void	specifier_switch(char c, va_list args)
+int	specifier_switch(char c, va_list args, int count)
 {
 	if (c == 'c')
-		ft_putchar_fd(va_arg(args, int), 1);
+		count = putchar_fd_count(va_arg(args, int), 1, count);
 	else if (c == 's')
-		ft_putstr_fd(va_arg(args, char *), 1);
+		count = putstr_fd_count(va_arg(args, char *), 1, count);
 	else if (c == 'd' || c == 'i')
-		ft_putnbr_fd(va_arg(args, int), 1);
+		count = putnbr_fd_count(va_arg(args, int), 1, count);
 	else if (c == 'u')
-		ft_putnbr_fd(va_arg(args, unsigned int), 1);
+		count = putnbr_fd_count(va_arg(args, unsigned int), 1, count);
 	else if (c == '%')
-		ft_putstr_fd("%", 1);
+		count = putstr_fd_count("%", 1, count);
 	else if (c == 'x')
-		ft_putbase_fd(va_arg(args, int), 1, "0123456789abcdef");
+		count = putbase_fd_count(va_arg(args, int), 1, "0123456789abcdef", count);
 	else if (c == 'X')
-		ft_putbase_fd(va_arg(args, int), 1, "0123456789ABCDEF");
+		count = putbase_fd_count(va_arg(args, int), 1, "0123456789ABCDEF", count);
+	return (count);
 }
 
-void format_traversal(char *str, va_list args)
+int format_traversal(char *str, va_list args)
 {
 	int		j;
+	int		count;
 	char	c;
 
 	j = 0;
+	count = 0;
 	while (str[j])
 	{
 		if (!(str[j] == '%' && percent_spe_q(str, j)))
-		 	write(1, &str[j], 1);
+		{
+			count++;
+			write(1, &str[j], 1);
+		}
 		else
 		{
 			c = get_specifier(str, j);
-			specifier_switch(c, args);
+			count = specifier_switch(c, args, count);
 			j += get_length_ofspe(&str[j]);
 			continue;
 		}
 		j++;
 	}
+	return (count);
 }
 
 int ft_printf(const char *format, ...)
 {
 	va_list args;
-	// char	*str;
-	// char	*debug;
-	int		nbr_specifiers;
-	// int		j;
-
-	nbr_specifiers = get_nbr_specifiers((char *)format);
-	// str = (char *)format;
-	printf("%d\n", nbr_specifiers);
-	// j = 0;
+	int		j;
 
 	va_start(args, format);
-	format_traversal((char *)format, args);
+	j = format_traversal((char *)format, args);
 	va_end(args);
 	// if (nbr_specifiers)
 	// {
 	// 	va_start(args, format);
 	// 	va_end(args);
 	// }
-	return (0);
+	return (j);
 }
 
-
+#include <stdio.h>
 int main(void)
 {
 	// ft_printf("Hello World!");
@@ -376,7 +382,26 @@ int main(void)
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 42);
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 32); // 20
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 0); // 2a
-	ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42); // 2A
+	// 	ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42);
+
+	
+	// printf("%d\n", ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42));
+	// printf("%d\n", printf("Hello %s! Hex uppercase: %X!\n", "42", 42));
+
+	// printf("%d\n", ft_printf("Hello World!\n"));
+	// printf("%d\n", printf("Hello World!\n"));
+
+	// printf("%d\n", ft_printf("%%%%%%\n"));
+	// printf("%d\n", ft_printf("%%%%%%\n"));
+
+	// printf("%d\n", ft_printf("Hello %s! %s\n", "42", "Bye!"));
+	// printf("%d\n", printf("Hello %s! %s\n", "42", "Bye!"));
+	
+	// printf("%d\n", ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 32));
+	// printf("%d\n", printf("Hello %s! Hex lowercase: %x!\n", "42", 32));
+
+	// printf("%d\n", ft_printf("Hello %s! %c! %d!\n", "42", 'c', -42));
+	// printf("%d\n", printf("Hello %s! %c! %d!\n", "42", 'c', -42));
 
 	// Not working as it should!
 	// ft_printf("Hello %s! Int: %d! Unsigned int: %u\n", "42", -42, -42);
