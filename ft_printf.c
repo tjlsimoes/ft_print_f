@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 10:51:48 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/23 11:23:56 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,41 @@ int	putnbr_fd_count(int n, int fd, int count)
 		write(fd, "-", 1);
 	}
 	nbr_digits = get_nbr_digits(n_ll);
+	while (nbr_digits > 0)
+	{
+		c = (n_ll / power(10, nbr_digits - 1)) + 48;
+		write(fd, &c, 1);
+		count++;
+		n_ll = n_ll % power(10, nbr_digits - 1);
+		nbr_digits--;
+	}
+	return (count);
+}
+
+
+static int	get_unint_digits(unsigned long n)
+{
+	int		count;
+
+	if (n == 0)
+		return (1);
+	count = 0;
+	while (n)
+	{
+		n = n / 10;
+		count++;
+	}
+	return (count);
+}
+
+int	putunint_fd_count(unsigned int n, int fd, int count)
+{
+	char		c;
+	int			nbr_digits;
+	long		n_ll;
+
+	n_ll = (unsigned long)n;
+	nbr_digits = get_unint_digits(n_ll);
 	while (nbr_digits > 0)
 	{
 		c = (n_ll / power(10, nbr_digits - 1)) + 48;
@@ -301,7 +336,7 @@ int	specifier_switch(char c, va_list args, int count)
 	else if (c == 'd' || c == 'i')
 		count = putnbr_fd_count(va_arg(args, int), 1, count);
 	else if (c == 'u')
-		count = putnbr_fd_count(va_arg(args, unsigned int), 1, count);
+		count = putunint_fd_count(va_arg(args, unsigned int), 1, count);
 	else if (c == '%')
 		count = putstr_fd_count("%", 1, count);
 	else if (c == 'x')
@@ -384,6 +419,7 @@ int main(void)
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 32); // 20
 	//  ft_printf("Hello %s! Hex lowercase: %x!\n", "42", 0); // 2a
 	// 	ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42);
+	// ft_printf("%s! %d! Unsigned int: %u\n", "42", -42, -42); // 4294967254
 
 	
 	// printf("%d\n", ft_printf("Hello %s! Hex uppercase: %X!\n", "42", 42));
@@ -404,7 +440,8 @@ int main(void)
 	// printf("%d\n", ft_printf("Hello %s! %c! %d!\n", "42", 'c', -42));
 	// printf("%d\n", printf("Hello %s! %c! %d!\n", "42", 'c', -42));
 
-	// Not working as it should!
-	// ft_printf("Hello %s! Int: %d! Unsigned int: %u\n", "42", -42, -42);
+	// printf("%d\n", ft_printf("Hello %s! %d! %u\n", "42", -42, -42));
+	// printf("%d\n", printf("Hello %s! Int: %d! %u\n", "42", -42, -42));
+
 	return (0);
 }
