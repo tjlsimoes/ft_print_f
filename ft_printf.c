@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 10:33:04 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:51:48 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ int	out_length(int nbr, int base)
 	return (i);
 }
 
-char	*convert_base(int nbr, char *base_to)
+char	*convert_base(unsigned long long nbr, char *base_to)
 {
 	int		base;
 	char	*output;
@@ -305,9 +305,9 @@ int	specifier_switch(char c, va_list args, int count)
 	else if (c == '%')
 		count = putstr_fd_count("%", 1, count);
 	else if (c == 'x')
-		count = putbase_fd_count(va_arg(args, int), 1, "0123456789abcdef", count);
+		count = putbase_fd_count(va_arg(args, unsigned int), 1, "0123456789abcdef", count);
 	else if (c == 'X')
-		count = putbase_fd_count(va_arg(args, int), 1, "0123456789ABCDEF", count);
+		count = putbase_fd_count(va_arg(args, unsigned int), 1, "0123456789ABCDEF", count);
 	return (count);
 }
 
