@@ -6,13 +6,13 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:41:51 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 15:48:35 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:22:02 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	putbase_fd_count(int nbr, int fd, char *base_to, int count)
+int	putbase_fd_count(unsigned long nbr, int fd, char *base_to, int count)
 {
 	char	*s;
 

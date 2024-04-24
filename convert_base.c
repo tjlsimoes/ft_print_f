@@ -6,13 +6,13 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:41:27 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 13:02:20 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:19:44 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*convert_base(unsigned long long nbr, char *base_to)
+char	*convert_base(unsigned long nbr, char *base_to)
 {
 	int		base;
 	char	*output;
