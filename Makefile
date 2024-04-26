@@ -6,7 +6,7 @@
 #    By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 12:48:48 by tjorge-l          #+#    #+#              #
-#    Updated: 2024/04/26 11:02:49 by tjorge-l         ###   ########.fr        #
+#    Updated: 2024/04/26 11:44:37 by tjorge-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJ := $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar -q $(NAME) $(OBJ)
+	ar -rcs $(NAME) $(OBJ)
 #	$(CC) -c $(CFLAGS) $(OBJ) -o ##$(NAME)
 
 clean:
