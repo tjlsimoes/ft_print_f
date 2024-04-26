@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:42:37 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 16:41:02 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:43:31 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int	format_traversal(char *str, va_list args)
 		return (0);
 	while (str[j])
 	{
+		if (percent_spe_q(str, j) == 5)
+		{
+			j++;
+			continue;
+		}
 		if (!(str[j] == '%' && percent_spe_q(str, j)))
 		{
 			count++;
