@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:38:52 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/24 15:30:56 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/26 10:58:02 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 int	putpointer_fd_count(unsigned long nbr, int fd, int count)
 {
-	char	*s;
-	char	*base_to;
-
-	base_to = "0123456789abcdef";
 	if (nbr == 0)
 	{
 		write(fd, "(nil)", 5);
@@ -26,8 +22,6 @@ int	putpointer_fd_count(unsigned long nbr, int fd, int count)
 	}
 	write(fd, "0x", 2);
 	count += 2;
-	s = convert_base(nbr, base_to);
-	count = putstrrev_fd_count(s, fd, count);
-	free(s);
+	count = putbase_fd_count(nbr, 1, "0123456789abcdef", count);
 	return (count);
 }

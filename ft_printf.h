@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:53:53 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/26 10:00:41 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:02:21 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int			percent_spe_q(char *format, int i);
 char		get_specifier(char *format, int i);
 int			get_length_ofspe(char *format);
 int			out_length(int nbr, int base);
-char		*convert_base(unsigned long nbr, char *base_to);
 int			putbase_fd_count(unsigned long nbr,
 				int fd, char *base_to, int count);
 int			specifier_switch(char c, va_list args, int count);
