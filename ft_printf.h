@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:53:53 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/26 11:02:21 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:23:57 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			ft_isdigit(int c);
 int			get_nbr_digits(int n);
 int			power(int n, int power);
 int			putnbr_fd_count(int n, int fd, int count);
-int			putpointer_fd_count(unsigned long nbr, int fd, int count);
+int			putpointer_fd_count(unsigned long long nbr, int fd, int count);
 int			get_unint_digits(unsigned long n);
 int			putunint_fd_count(unsigned int n, int fd, int count);
 int			putchar_fd_count(char c, int fd, int count);

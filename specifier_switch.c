@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:42:16 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 14:41:08 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:22:56 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	specifier_switch(char c, va_list args, int count)
 		count = putbase_fd_count(va_arg(args, unsigned int),
 				1, "0123456789ABCDEF", count);
 	else if (c == 'p')
-		count = putpointer_fd_count(va_arg(args, unsigned int),
+		count = putpointer_fd_count(va_arg(args, unsigned long long),
 				1, count);
 	return (count);
 }

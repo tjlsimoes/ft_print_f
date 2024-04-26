@@ -6,13 +6,13 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:38:52 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/26 10:58:02 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:23:35 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	putpointer_fd_count(unsigned long nbr, int fd, int count)
+int	putpointer_fd_count(unsigned long long nbr, int fd, int count)
 {
 	if (nbr == 0)
 	{
