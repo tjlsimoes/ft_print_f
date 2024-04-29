@@ -83,8 +83,10 @@ int main(void)
 
 	// ft_printf("Hello!\n");
 
-	ft_printf("%c small string", 'a');
+	// ft_printf("%c small string", 'a');
 
+	printf("%p small string");
+	printf("%%c%%s%%p%%d%%i%%u%%x%%X%%");
 
 	return (0);
 }
