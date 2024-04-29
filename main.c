@@ -81,7 +81,9 @@ int main(void)
 	// ft_printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%\n", 'A', "42", 42, 42 ,42 , 42, 42, 'B', "-42", -42, -42 ,-42 ,-42, 42, 'C', "0", 0, 0 ,0 ,0, 42, 0);
 
 
-	ft_printf("Hello!\n");
+	// ft_printf("Hello!\n");
+
+	ft_printf("%c small string", 'a');
 
 
 	return (0);

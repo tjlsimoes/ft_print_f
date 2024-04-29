@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:05 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/26 12:43:40 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:26:54 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	percent_spe_q(char *format, int i)
 		i++;
 	if (is_specifier(format[i]))
 	{
-		if (j != 1)
+		if (j != 1 && j != 0)
 			return (5);
 		return (1);
 	}
