@@ -4,3 +4,4 @@ ft_printf
 .vscode/
 printf_tester/
 printf-tester/
+ft_printf_tester/
