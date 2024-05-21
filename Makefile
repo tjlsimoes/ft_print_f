@@ -6,7 +6,7 @@
 #    By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 12:48:48 by tjorge-l          #+#    #+#              #
-#    Updated: 2024/04/29 10:15:23 by tjorge-l         ###   ########.fr        #
+#    Updated: 2024/05/21 16:05:47 by tjorge-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,8 @@ CC := cc
 
 CFLAGS := -Wall -Wextra -Werror
 
-SRC := ft_strlen.c is_specifier.c get_nbr_specifiers.c\
+SRC := ft_strlen.c is_specifier.c ft_printf.c\
 out_length.c putnbr_fd_count.c  putpointer_fd_count.c putunint_fd_count.c format_traversal.c  \
-ft_printf.c get_length_ofspe.c get_specifier.c percent_spe_q.c \
 putbase_fd_count.c putstr_fd_count.c specifier_switch.c ft_isdigit.c \
 get_nbr_digits.c get_unint_digits.c power.c putchar_fd_count.c 
 
