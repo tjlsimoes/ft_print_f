@@ -6,7 +6,7 @@
 /*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:00:43 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/05/21 16:02:44 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:43:38 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_printf(const char *format, ...)
 	return (j);
 }
 
-// #include "ft_printf.h"
 // #include <stdio.h>
 
 // int main(void)
