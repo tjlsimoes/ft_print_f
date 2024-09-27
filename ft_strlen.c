@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjorge-l <tjorge-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjorge-l <tjorge-l@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:33:30 by tjorge-l          #+#    #+#             */
-/*   Updated: 2024/04/23 12:33:49 by tjorge-l         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:22:54 by tjorge-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_strlen(const char *str)
 
 	i = 0;
 	count = 0;
-	if (!str[i])
+	if (!str)
 		return (0);
 	while (str[i] != '\0')
 	{
